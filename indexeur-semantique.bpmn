@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:open-bpmn="http://open-bpmn.org/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="indexeur-semantique-process" targetNamespace="http://medbot.intelligence/bpmn">
+  <bpmn2:process id="SemanticIndexingProcess" isExecutable="true" name="Semantic Indexing Process" processType="Public">
+    <!-- Start Event -->
+    <bpmn2:documentation id="documentation_ukukYA"/>
+    <bpmn2:extensionElements>
+      <open-bpmn:auto-align/>
+    </bpmn2:extensionElements>
+    <bpmn2:startEvent id="StartEvent_IndexRequest" name="Index Document Request">
+      <bpmn2:documentation id="documentation_tms3pA"/>
+      <bpmn2:outgoing>Flow_ChunkText</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <!-- Chunking -->
+    <bpmn2:serviceTask id="Task_ChunkText" name="Chunk Document Text">
+      <bpmn2:documentation id="documentation_d8hS0A"/>
+      <bpmn2:incoming>Flow_ChunkText</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_CheckChunks</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:exclusiveGateway id="Gateway_HasChunks" name="Chunks Generated?">
+      <bpmn2:documentation id="documentation_ug01Gg"/>
+      <bpmn2:incoming>Flow_CheckChunks</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_YesChunks</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:endEvent id="EndEvent_NoChunks" name="No Chunks Error">
+      <bpmn2:documentation id="documentation_NtOH0A"/>
+    </bpmn2:endEvent>
+    <!-- Generate Embeddings -->
+    <bpmn2:serviceTask id="Task_GenerateEmbeddings" name="Generate Embeddings Batch">
+      <bpmn2:documentation id="documentation_JrvfvQ"/>
+      <bpmn2:incoming>Flow_YesChunks</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_SaveChunks</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <!-- Save Chunks to Database -->
+    <bpmn2:serviceTask id="Task_SaveChunksToDB" name="Save Chunks to Database">
+      <bpmn2:documentation id="documentation_wT1ceQ"/>
+      <bpmn2:incoming>Flow_SaveChunks</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_AddToFAISS</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <!-- FAISS Indexing -->
+    <bpmn2:serviceTask id="Task_AddToFAISS" name="Add Vectors to FAISS Index">
+      <bpmn2:documentation id="documentation_6fmwZA"/>
+      <bpmn2:incoming>Flow_AddToFAISS</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_UpdateFAISSIds</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="Task_UpdateFAISSIds" name="Update FAISS IDs in Database">
+      <bpmn2:documentation id="documentation_EJT5aQ"/>
+      <bpmn2:incoming>Flow_UpdateFAISSIds</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_CommitTransaction</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="Task_CommitTransaction" name="Commit Database Transaction">
+      <bpmn2:documentation id="documentation_vMU0rw"/>
+      <bpmn2:incoming>Flow_CommitTransaction</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Complete</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <!-- End Event -->
+    <bpmn2:endEvent id="EndEvent_DocumentIndexed" name="Document Indexed">
+      <bpmn2:documentation id="documentation_6iRViA"/>
+      <bpmn2:incoming>Flow_Complete</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <!-- Sequence Flows -->
+    <bpmn2:sequenceFlow id="Flow_ChunkText" sourceRef="StartEvent_IndexRequest" targetRef="Task_ChunkText">
+      <bpmn2:documentation id="documentation_GR0Yyg"/>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_CheckChunks" sourceRef="Task_ChunkText" targetRef="Gateway_HasChunks">
+      <bpmn2:documentation id="documentation_jEUo1Q"/>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_YesChunks" name="Yes" sourceRef="Gateway_HasChunks" targetRef="Task_GenerateEmbeddings">
+      <bpmn2:documentation id="documentation_HmLPcg"/>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${chunksCount &gt; 0}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_SaveChunks" sourceRef="Task_GenerateEmbeddings" targetRef="Task_SaveChunksToDB">
+      <bpmn2:documentation id="documentation_9aJ7Zw"/>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_AddToFAISS" sourceRef="Task_SaveChunksToDB" targetRef="Task_AddToFAISS">
+      <bpmn2:documentation id="documentation_dKrQ9w"/>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_UpdateFAISSIds" sourceRef="Task_AddToFAISS" targetRef="Task_UpdateFAISSIds">
+      <bpmn2:documentation id="documentation_tIf0fg"/>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_CommitTransaction" sourceRef="Task_UpdateFAISSIds" targetRef="Task_CommitTransaction">
+      <bpmn2:documentation id="documentation_DcJNHw"/>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="Flow_Complete" sourceRef="Task_CommitTransaction" targetRef="EndEvent_DocumentIndexed">
+      <bpmn2:documentation id="documentation_i4NN0Q"/>
+    </bpmn2:sequenceFlow>
+  </bpmn2:process>
+  <!-- Search Process -->
+  <bpmn2:process id="SemanticSearchProcess" isExecutable="true" name="Semantic Search Process" processType="Private">
+    <bpmn2:startEvent id="StartEvent_SearchRequest" name="Search Request">
+      <bpmn2:outgoing>Flow_GenerateQueryEmbedding</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:serviceTask id="Task_GenerateQueryEmbedding" name="Generate Query Embedding">
+      <bpmn2:incoming>Flow_GenerateQueryEmbedding</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_SearchFAISS</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="Task_SearchFAISS" name="Search FAISS Index">
+      <bpmn2:incoming>Flow_SearchFAISS</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_FilterByThreshold</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="Task_FilterByThreshold" name="Filter by Similarity Threshold">
+      <bpmn2:incoming>Flow_FilterByThreshold</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_FormatResults</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="Task_FormatResults" name="Format Search Results">
+      <bpmn2:incoming>Flow_FormatResults</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_SaveSearchLog</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="Task_SaveSearchLog" name="Save Search Log">
+      <bpmn2:incoming>Flow_SaveSearchLog</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_CompleteSearch</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:endEvent id="EndEvent_SearchComplete" name="Search Complete">
+      <bpmn2:incoming>Flow_CompleteSearch</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_GenerateQueryEmbedding" sourceRef="StartEvent_SearchRequest" targetRef="Task_GenerateQueryEmbedding"/>
+    <bpmn2:sequenceFlow id="Flow_SearchFAISS" sourceRef="Task_GenerateQueryEmbedding" targetRef="Task_SearchFAISS"/>
+    <bpmn2:sequenceFlow id="Flow_FilterByThreshold" sourceRef="Task_SearchFAISS" targetRef="Task_FilterByThreshold"/>
+    <bpmn2:sequenceFlow id="Flow_FormatResults" sourceRef="Task_FilterByThreshold" targetRef="Task_FormatResults"/>
+    <bpmn2:sequenceFlow id="Flow_SaveSearchLog" sourceRef="Task_FormatResults" targetRef="Task_SaveSearchLog"/>
+    <bpmn2:sequenceFlow id="Flow_CompleteSearch" sourceRef="Task_SaveSearchLog" targetRef="EndEvent_SearchComplete"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_IndexeurSemantique">
+    <bpmndi:BPMNPlane bpmnElement="SemanticIndexingProcess" id="BPMNPlane_IndexeurSemantique">
+      <!-- Diagram elements would be defined here with coordinates -->
+      <bpmndi:BPMNShape bpmnElement="StartEvent_IndexRequest" id="BPMNShape_JuMt2A">
+        <dc:Bounds height="36.0" width="36.0" x="0.0" y="0.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_0E3PXQ">
+          <dc:Bounds height="20.0" width="100.0" x="-32.0" y="39.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_ChunkText" id="BPMNShape_bm3dgQ">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Gateway_HasChunks" id="BPMNShape_bwO6pg">
+        <dc:Bounds height="50.0" width="50.0" x="0.0" y="0.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_HwoojQ">
+          <dc:Bounds height="20.0" width="100.0" x="-25.0" y="53.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EndEvent_NoChunks" id="BPMNShape_sL5zTg">
+        <dc:Bounds height="36.0" width="36.0" x="0.0" y="0.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_YVw1sQ">
+          <dc:Bounds height="20.0" width="100.0" x="-32.0" y="39.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_GenerateEmbeddings" id="BPMNShape_4ULmTA">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_SaveChunksToDB" id="BPMNShape_q28bmA">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_AddToFAISS" id="BPMNShape_VDE7pw">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_UpdateFAISSIds" id="BPMNShape_SwEqAw">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_CommitTransaction" id="BPMNShape_g6Y8Cw">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EndEvent_DocumentIndexed" id="BPMNShape_0sTCoA">
+        <dc:Bounds height="36.0" width="36.0" x="0.0" y="0.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_eKSKLg">
+          <dc:Bounds height="20.0" width="100.0" x="-32.0" y="39.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNPlane bpmnElement="SemanticIndexingProcess" id="BPMNPlane_lurVwA">
+      <bpmndi:BPMNShape bpmnElement="StartEvent_SearchRequest" id="BPMNShape_fjePHg">
+        <dc:Bounds height="36.0" width="36.0" x="0.0" y="0.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2OsrWA">
+          <dc:Bounds height="20.0" width="100.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_GenerateQueryEmbedding" id="BPMNShape_C0CSow">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_SearchFAISS" id="BPMNShape_RVVr0A">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_FilterByThreshold" id="BPMNShape_mDbUdA">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_FormatResults" id="BPMNShape_te8xQA">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Task_SaveSearchLog" id="BPMNShape_Z7o5dg">
+        <dc:Bounds height="50.0" width="110.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EndEvent_SearchComplete" id="BPMNShape_bSBvjQ">
+        <dc:Bounds height="36.0" width="36.0" x="0.0" y="0.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_9iZ7yQ">
+          <dc:Bounds height="20.0" width="100.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
