@@ -1,1 +1,1 @@
-"""App package"""
+# DocIngestor Service Package

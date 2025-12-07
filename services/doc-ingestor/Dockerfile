@@ -16,10 +16,13 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --default-timeout=1000 --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY ./app /app
+COPY ./app /app/app
+
+# Create __init__.py to make it a package
+RUN touch /app/__init__.py
 
 # Create necessary directories
 RUN mkdir -p /data/documents /app/logs
@@ -27,5 +30,5 @@ RUN mkdir -p /data/documents /app/logs
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Run the application using python -m to ensure proper package resolution
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

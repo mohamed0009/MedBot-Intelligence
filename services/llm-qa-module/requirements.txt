@@ -17,7 +17,8 @@ openai==1.6.1
 
 # Open Source LLM Support
 transformers==4.35.2
-torch==2.1.1
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.1.1+cpu
 accelerate==0.25.0
 sentence-transformers==2.2.2
 

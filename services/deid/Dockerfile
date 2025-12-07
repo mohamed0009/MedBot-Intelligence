@@ -19,7 +19,10 @@ RUN pip install https://github.com/explosion/spacy-models/releases/download/en_c
 RUN pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl
 
 # Copy application code
-COPY ./app /app
+COPY ./app /app/app
+
+# Create __init__.py to make it a package
+RUN touch /app/__init__.py
 
 # Create necessary directories
 RUN mkdir -p /app/logs
@@ -28,4 +31,6 @@ RUN mkdir -p /app/logs
 EXPOSE 8000
 
 # Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+
