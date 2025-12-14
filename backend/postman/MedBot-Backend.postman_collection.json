@@ -1,0 +1,1634 @@
+{
+  "info": {
+    "name": "MedBot Backend API",
+    "description": "Collection Postman pour tester toutes les APIs du backend MedBot",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"APPRENANT\",\n  \"formation\": \"Développement Full Stack\",\n  \"niveau\": \"DEBUTANT\",\n  \"phone\": \"+33123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John Updated\",\n  \"formation\": \"Data Science\",\n  \"niveau\": \"INTERMEDIAIRE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Activate User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/:id/activate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id", "activate"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/:id/deactivate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id", "deactivate"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/users/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Formations",
+      "item": [
+        {
+          "name": "Create Formation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Développement Web Full Stack\",\n  \"description\": \"Formation complète pour devenir développeur web full stack\",\n  \"niveau\": \"INTERMEDIAIRE\",\n  \"dureeTotaleHeures\": 120,\n  \"imageUrl\": \"https://example.com/image.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/formations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "formations"]
+            }
+          }
+        },
+        {
+          "name": "Get All Formations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/formations?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "formations"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Formation by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/formations/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "formations", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Formation",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Développement Web Full Stack - Mise à jour\",\n  \"dureeTotaleHeures\": 150\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/formations/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "formations", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Formation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/formations/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "formations", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"React Avancé\",\n  \"description\": \"Cours approfondi sur React et ses hooks avancés\",\n  \"formationId\": null,\n  \"formateurId\": null,\n  \"status\": \"EN_ATTENTE\",\n  \"niveau\": \"AVANCE\",\n  \"dureeHeures\": 40,\n  \"imageUrl\": \"https://example.com/react.jpg\",\n  \"participantsCount\": 0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses"]
+            }
+          }
+        },
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "formationId",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "formateurId",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Course by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Course Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"React Avancé - Mise à jour\",\n  \"dureeHeures\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve Course",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses/:id/approve",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses", ":id", "approve"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/courses/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "courses", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trainers",
+      "item": [
+        {
+          "name": "Create Trainer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Sophie\",\n  \"lastName\": \"Martin\",\n  \"email\": \"sophie.martin@coachiapro.fr\",\n  \"description\": \"Experte en IA avec 10 ans d'expérience\",\n  \"skills\": [\"Machine Learning\", \"Python\", \"Data Science\"],\n  \"status\": \"EN_ATTENTE\",\n  \"rating\": 4.8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers"]
+            }
+          }
+        },
+        {
+          "name": "Get All Trainers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Trainer by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Trainer Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Update Trainer",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Experte en IA avec 12 ans d'expérience\",\n  \"rating\": 4.9\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Validate Trainer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers/:id/validate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers", ":id", "validate"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Suspend Trainer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/trainers/:id/suspend",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "trainers", ":id", "suspend"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": null,\n  \"type\": \"ANNONCE\",\n  \"priority\": \"MOYENNE\",\n  \"title\": \"Nouvelle formation disponible\",\n  \"message\": \"Une nouvelle formation en Data Science est maintenant disponible !\",\n  \"targetAudience\": \"TOUS\",\n  \"scheduledAt\": null\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Get Notification by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Notifications by User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/user/:userId?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "user", ":userId"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "unreadOnly",
+                  "value": "false",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Notification Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get User Notification Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/user/:userId/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "user", ":userId", "stats"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/:id/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", ":id", "read"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Scheduled Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/scheduled?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "scheduled"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Support Tickets",
+      "item": [
+        {
+          "name": "Create Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"00000000-0000-0000-0000-000000000001\",\n  \"title\": \"Impossible de se connecter à la plateforme\",\n  \"description\": \"Je n'arrive pas à me connecter avec mon compte\",\n  \"category\": \"TECHNIQUE\",\n  \"priority\": \"HAUTE\",\n  \"status\": \"OUVERT\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/support/tickets",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "support", "tickets"]
+            }
+          }
+        },
+        {
+          "name": "Get All Tickets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/support/tickets?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "support", "tickets"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "priority",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Ticket by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/support/tickets/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "support", "tickets", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Ticket Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/support/tickets/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "support", "tickets", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Update Ticket Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/support/tickets/:id/status?status=EN_COURS",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "support", "tickets", ":id", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "EN_COURS"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Assign Ticket",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/support/tickets/:id/assign?assignedTo=00000000-0000-0000-0000-000000000002",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "support", "tickets", ":id", "assign"],
+              "query": [
+                {
+                  "key": "assignedTo",
+                  "value": "00000000-0000-0000-0000-000000000002"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Coach",
+      "item": [
+        {
+          "name": "Get AI Coach Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coach/config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coach", "config"]
+            }
+          }
+        },
+        {
+          "name": "Update AI Coach Config",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"language\": \"Français\",\n  \"responseTone\": \"Amical\",\n  \"detailLevel\": \"Modéré\",\n  \"maxResponseLength\": 500,\n  \"enableQuizGeneration\": true,\n  \"enableSummaryGeneration\": true,\n  \"enableExerciseGeneration\": true,\n  \"enableAdvancedPersonalization\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/coach/config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coach", "config"]
+            }
+          }
+        },
+        {
+          "name": "Get AI Coach Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coach/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coach", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Interactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coach/interactions?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coach", "interactions"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Generated Content",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coach/generated-content",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coach", "generated-content"]
+            }
+          }
+        },
+        {
+          "name": "Get Knowledge Base",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coach/knowledge-base",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coach", "knowledge-base"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Progress",
+      "item": [
+        {
+          "name": "Create or Update Progress",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/progress?userId=00000000-0000-0000-0000-000000000001&courseId=00000000-0000-0000-0000-000000000002&modulesCompleted=3&totalModules=10&timeSpentMinutes=120",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "progress"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "00000000-0000-0000-0000-000000000001"
+                },
+                {
+                  "key": "courseId",
+                  "value": "00000000-0000-0000-0000-000000000002"
+                },
+                {
+                  "key": "modulesCompleted",
+                  "value": "3"
+                },
+                {
+                  "key": "totalModules",
+                  "value": "10"
+                },
+                {
+                  "key": "timeSpentMinutes",
+                  "value": "120"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Progress by User and Course",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/progress/user/:userId/course/:courseId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "progress", "user", ":userId", "course", ":courseId"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                },
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Progress by User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/progress/user/:userId?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "progress", "user", ":userId"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Progress by Course",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/progress/course/:courseId?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "progress", "course", ":courseId"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "patient_id",
+                  "value": "PAT001",
+                  "type": "text"
+                },
+                {
+                  "key": "document_type",
+                  "value": "compte-rendu",
+                  "type": "text"
+                },
+                {
+                  "key": "author",
+                  "value": "Dr. Smith",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/upload",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", "upload"]
+            }
+          }
+        },
+        {
+          "name": "Get All Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Document by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Documents by Patient",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/patient/PAT001?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", "patient", "PAT001"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Document",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document_type\": \"ordonnance\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anonymization",
+      "item": [
+        {
+          "name": "Anonymize Text",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Patient John Smith (SSN: 123-45-6789) visited Dr. Jane Doe. Diagnosis: Type 2 Diabetes.\",\n  \"strategy\": \"SYNTHESIZE\",\n  \"preserveMedical\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/anonymization/anonymize",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "anonymization", "anonymize"]
+            }
+          }
+        },
+        {
+          "name": "Analyze PII",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "Patient John Smith (SSN: 123-45-6789) visited Dr. Jane Doe."
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/anonymization/analyze",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "anonymization", "analyze"]
+            }
+          }
+        },
+        {
+          "name": "Get Strategies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/anonymization/strategies",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "anonymization", "strategies"]
+            }
+          }
+        },
+        {
+          "name": "Get Entity Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/anonymization/entities",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "anonymization", "entities"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Semantic Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"diabète traitement\",\n  \"topK\": 10,\n  \"similarityThreshold\": 0.7,\n  \"patientId\": \"PAT001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/search/semantic",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "search", "semantic"]
+            }
+          }
+        },
+        {
+          "name": "Index Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "Document content to index..."
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/search/index/:documentId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "search", "index", ":documentId"],
+              "variable": [
+                {
+                  "key": "documentId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Q&A",
+      "item": [
+        {
+          "name": "Ask Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Quel est le diagnostic du patient PAT001?\",\n  \"patientId\": \"PAT001\",\n  \"userId\": \"USER001\",\n  \"maxSources\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/qa/ask",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "qa", "ask"]
+            }
+          }
+        },
+        {
+          "name": "Get History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/qa/history?patientId=PAT001&page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "qa", "history"],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "PAT001"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get History by Patient",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/qa/history/PAT001?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "qa", "history", "PAT001"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Synthesis",
+      "item": [
+        {
+          "name": "Generate Synthesis",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/synthesis/patient/PAT001?type=SUMMARY",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "synthesis", "patient", "PAT001"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "SUMMARY"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Timeline",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"PAT001\",\n  \"synthesisType\": \"TIMELINE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/synthesis/timeline",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "synthesis", "timeline"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Audit",
+      "item": [
+        {
+          "name": "Get Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audit/logs?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "audit", "logs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Logs by User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audit/user/USER001?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "audit", "user", "USER001"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Logs by Document",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audit/document/:documentId?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "audit", "document", ":documentId"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "documentId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
