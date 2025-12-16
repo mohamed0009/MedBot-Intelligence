@@ -39,22 +39,36 @@ export default function AuditPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Audit Logs</h1>
-                        <p className="text-gray-600 mt-1">Security and compliance audit trail (HIPAA/GDPR)</p>
-                    </div>
-                    <div className="flex space-x-2">
-                        <button
-                            onClick={fetchLogs}
-                            className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        >
-                            <RefreshCw className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
-                        </button>
-                        <button className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2 shadow-sm">
-                            <Download className="h-4 w-4" />
-                            <span>Export Report</span>
-                        </button>
+                {/* Header - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-red-600 via-orange-700 to-red-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-red-500/20">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                    <Shield className="h-8 w-8 text-white" />
+                                </div>
+                                <div>
+                                    <h1 className="text-4xl font-bold mb-1">Audit Logs</h1>
+                                    <p className="text-red-100 text-lg">Security and compliance audit trail (HIPAA/GDPR)</p>
+                                </div>
+                            </div>
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={fetchLogs}
+                                    className="p-3 bg-white/20 backdrop-blur-lg border border-white/30 hover:bg-white/30 rounded-xl transition-all"
+                                >
+                                    <RefreshCw className={`h-5 w-5 text-white ${loading ? 'animate-spin' : ''}`} />
+                                </button>
+                                <button className="bg-white/20 backdrop-blur-lg border border-white/30 hover:bg-white/30 text-white px-4 py-2 rounded-xl transition-all flex items-center space-x-2">
+                                    <Download className="h-4 w-4" />
+                                    <span>Export Report</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

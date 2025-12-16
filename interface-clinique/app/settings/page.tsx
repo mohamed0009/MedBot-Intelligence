@@ -7,9 +7,23 @@ export default function SettingsPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6 max-w-4xl mx-auto">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-600 mt-1">Manage your account and system preferences</p>
+                {/* Header - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-slate-600 via-gray-700 to-slate-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-slate-500/20">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-gray-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                <User className="h-8 w-8 text-white" />
+                            </div>
+                            <div>
+                                <h1 className="text-4xl font-bold mb-1">Settings</h1>
+                                <p className="text-slate-100 text-lg">Manage your account and system preferences</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Profile Section */}

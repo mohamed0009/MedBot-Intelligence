@@ -4,6 +4,7 @@ import { useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import { Send, Sparkles, FileText, Clock, Target } from 'lucide-react';
 import { api } from '../utils/api';
+import { Button } from '../components/ui';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -63,17 +64,23 @@ export default function QAPage() {
     return (
         <DashboardLayout>
             <div className="max-w-5xl mx-auto">
-                {/* Header */}
-                <div className="mb-6">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="p-3 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl shadow-lg">
-                            <Sparkles className="h-6 w-6 text-white" />
+                {/* Header - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-purple-500/20 mb-6">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                <Sparkles className="h-8 w-8 text-white" />
+                            </div>
+                            <div>
+                                <h1 className="text-4xl font-bold mb-1">AI Medical Assistant</h1>
+                                <p className="text-purple-100 text-lg">Ask questions about patient records and get AI-powered answers with citations</p>
+                            </div>
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900">AI Medical Assistant</h1>
                     </div>
-                    <p className="text-gray-600">
-                        Ask questions about patient records and get AI-powered answers with citations
-                    </p>
                 </div>
 
                 {/* Chat Container */}
@@ -87,8 +94,8 @@ export default function QAPage() {
                             >
                                 <div
                                     className={`max-w-3xl rounded-2xl p-4 ${message.role === 'user'
-                                            ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white'
-                                            : 'bg-gray-100 text-gray-900'
+                                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white'
+                                        : 'bg-gray-100 text-gray-900'
                                         }`}
                                 >
                                     <div className="flex items-start space-x-3">
@@ -105,7 +112,7 @@ export default function QAPage() {
                                                 <div className="mt-4 space-y-2">
                                                     <div className="flex items-center space-x-2 text-xs text-gray-600">
                                                         <FileText className="h-3 w-3" />
-                                                        <span className="font-  semibold">Sources ({message.sources.length})</span>
+                                                        <span className="font-semibold">Sources ({message.sources.length})</span>
                                                     </div>
                                                     <div className="space-y-1">
                                                         {message.sources.map((source, idx) => (
@@ -168,14 +175,15 @@ export default function QAPage() {
                                 className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                 disabled={loading}
                             />
-                            <button
+                            <Button
                                 onClick={handleSend}
                                 disabled={loading || !input.trim()}
-                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center space-x-2"
+                                variant="primary"
+                                size="lg"
                             >
-                                <span className="font-medium">Send</span>
-                                <Send className="h-4 w-4" />
-                            </button>
+                                Send
+                                <Send className="h-4 w-4 ml-2" />
+                            </Button>
                         </div>
                     </div>
                 </div>

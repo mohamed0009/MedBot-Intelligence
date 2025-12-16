@@ -2,40 +2,61 @@
 
 import DashboardLayout from '../components/DashboardLayout';
 import { BarChart3, TrendingUp, Users, FileText, Activity, PieChart } from 'lucide-react';
+import { StatCard } from '../components/ui';
 
 export default function AnalyticsPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
-                    <p className="text-gray-600 mt-1">Insights and metrics about your medical data processing</p>
+                {/* Header - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-teal-600 via-teal-700 to-blue-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-teal-500/20">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                <BarChart3 className="h-8 w-8 text-white" />
+                            </div>
+                            <div>
+                                <h1 className="text-4xl font-bold mb-1">Analytics Dashboard</h1>
+                                <p className="text-teal-100 text-lg">Insights and metrics about your medical data processing</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Key Metrics */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {[
-                        { label: 'Total Documents', value: '1,245', change: '+12%', icon: FileText, color: 'blue' },
-                        { label: 'Active Patients', value: '342', change: '+5%', icon: Users, color: 'teal' },
-                        { label: 'AI Queries', value: '8,902', change: '+24%', icon: Activity, color: 'purple' },
-                        { label: 'Avg. Processing Time', value: '1.2s', change: '-15%', icon: TrendingUp, color: 'green' },
-                    ].map((stat, i) => (
-                        <div key={i} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">{stat.label}</p>
-                                    <h3 className="text-2xl font-bold text-gray-900 mt-2">{stat.value}</h3>
-                                </div>
-                                <div className={`p-3 rounded-lg bg-${stat.color}-50 text-${stat.color}-600`}>
-                                    <stat.icon className="h-6 w-6" />
-                                </div>
-                            </div>
-                            <div className="mt-4 flex items-center text-sm">
-                                <span className="text-green-600 font-medium">{stat.change}</span>
-                                <span className="text-gray-400 ml-2">vs last month</span>
-                            </div>
-                        </div>
-                    ))}
+                    <StatCard
+                        label="Total Documents"
+                        value="1,245"
+                        change={{ value: "+12%", trend: "up" }}
+                        icon={FileText}
+                        color="blue"
+                    />
+                    <StatCard
+                        label="Active Patients"
+                        value="342"
+                        change={{ value: "+5%", trend: "up" }}
+                        icon={Users}
+                        color="teal"
+                    />
+                    <StatCard
+                        label="AI Queries"
+                        value="8,902"
+                        change={{ value: "+24%", trend: "up" }}
+                        icon={Activity}
+                        color="purple"
+                    />
+                    <StatCard
+                        label="Avg. Processing Time"
+                        value="1.2s"
+                        change={{ value: "-15%", trend: "down" }}
+                        icon={TrendingUp}
+                        color="green"
+                    />
                 </div>
 
                 {/* Charts Area */}

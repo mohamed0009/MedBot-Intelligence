@@ -32,15 +32,29 @@ export default function PatientsPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Patients</h1>
-                        <p className="text-gray-600 mt-1">Manage patient records and generate summaries</p>
+                {/* Header - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-cyan-600 via-blue-700 to-cyan-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-cyan-500/20">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                    <Users className="h-8 w-8 text-white" />
+                                </div>
+                                <div>
+                                    <h1 className="text-4xl font-bold mb-1">Patients</h1>
+                                    <p className="text-cyan-100 text-lg">View and manage patient records</p>
+                                </div>
+                            </div>
+                            <button className="bg-white/20 backdrop-blur-lg border border-white/30 hover:bg-white/30 text-white px-4 py-2 rounded-xl transition-all flex items-center space-x-2">
+                                <Plus className="h-5 w-5" />
+                                <span>Add Patient</span>
+                            </button>
+                        </div>
                     </div>
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
-                        <Plus className="h-5 w-5" />
-                        <span>Add Patient</span>
-                    </button>
                 </div>
 
                 {/* Search & Filter */}
@@ -93,8 +107,8 @@ export default function PatientsPage() {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${patient.status === 'Critical' ? 'bg-red-100 text-red-800' :
-                                                patient.status === 'Warning' ? 'bg-yellow-100 text-yellow-800' :
-                                                    'bg-green-100 text-green-800'
+                                            patient.status === 'Warning' ? 'bg-yellow-100 text-yellow-800' :
+                                                'bg-green-100 text-green-800'
                                             }`}>
                                             {patient.status}
                                         </span>

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import DashboardLayout from './components/DashboardLayout';
-import { FileText, CheckCircle, MessageSquare, Clock, TrendingUp, ArrowUpRight, Activity } from 'lucide-react';
+import { FileText, CheckCircle, MessageSquare, Clock, TrendingUp, Activity } from 'lucide-react';
 import { api } from './utils/api';
+import { StatCard, Button, SkeletonCard } from './components/ui';
 
 export default function Home() {
   const [stats, setStats] = useState({
@@ -12,11 +13,22 @@ export default function Home() {
     totalQueries: 0,
     processingSuccess: 0
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
-      const data = await api.getStats();
-      setStats(data);
+      try {
+        setLoading(true);
+        const data = await api.getStats();
+        setStats(data);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load statistics');
+        console.error('Error fetching stats:', err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchStats();
   }, []);
@@ -59,46 +71,89 @@ export default function Home() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Welcome Section */}
-        <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-teal-600 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
-          <div className="relative z-10 flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Welcome back, Dr. Martinez! 👋</h1>
-              <p className="text-blue-100 text-lg">
-                Your AI-powered medical assistant is ready to help you analyze patient data
-              </p>
+        {/* Welcome Section - UPGRADED */}
+        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-teal-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-blue-500/20">
+          {/* Animated Background Elements */}
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                    <Activity className="h-8 w-8 text-white" />
+                  </div>
+                  <div>
+                    <h1 className="text-4xl font-bold mb-1">Welcome back, Dr. Martinez! 👋</h1>
+                    <p className="text-blue-100 text-lg">
+                      Your AI-powered medical assistant is ready to help you analyze patient data
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quick Stats Badges */}
+                <div className="flex flex-wrap gap-3 mt-6">
+                  <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium">System Online</span>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 flex items-center space-x-2">
+                    <Clock className="h-4 w-4" />
+                    <span className="text-sm font-medium">Last sync: 2 mins ago</span>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 flex items-center space-x-2">
+                    <TrendingUp className="h-4 w-4" />
+                    <span className="text-sm font-medium">Performance: Excellent</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <Activity className="h-16 w-16 text-white/20" />
           </div>
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl"></div>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {statCards.map((stat) => (
-            <div
-              key={stat.name}
-              className="relative overflow-hidden rounded-xl bg-white p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 card-hover"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.name}</p>
-                  <p className="mt-2 text-3xl font-bold text-gray-900">{stat.value}</p>
-                  <div className="mt-2 flex items-center space-x-2">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${stat.changeType === 'positive' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
-                      <ArrowUpRight className="mr-1 h-3 w-3" />
-                      {stat.change}
-                    </span>
-                  </div>
-                </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} shadow-lg`}>
-                  <stat.icon className="h-6 w-6 text-white" />
-                </div>
-              </div>
-            </div>
-          ))}
+          {loading ? (
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
+          ) : (
+            <>
+              <StatCard
+                label="Total Documents"
+                value={stats.totalDocuments}
+                change={{ value: "+12%", trend: "up" }}
+                icon={FileText}
+                color="blue"
+              />
+              <StatCard
+                label="Indexed Chunks"
+                value={stats.totalIndexed}
+                change={{ value: "+100%", trend: "up" }}
+                icon={CheckCircle}
+                color="green"
+              />
+              <StatCard
+                label="AI Queries"
+                value={stats.totalQueries}
+                change={{ value: "+18%", trend: "up" }}
+                icon={MessageSquare}
+                color="purple"
+              />
+              <StatCard
+                label="Avg Response Time"
+                value="1.8s"
+                change={{ value: "-0.5s", trend: "up" }}
+                icon={Clock}
+                color="teal"
+              />
+            </>
+          )}
         </div>
 
         {/* Recent Activity & Quick Actions */}
@@ -135,18 +190,18 @@ export default function Home() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
             <div className="space-y-3">
-              <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg">
-                <FileText className="h-5 w-5" />
-                <span className="font-medium">Upload Document</span>
-              </button>
-              <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-3 rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all shadow-md hover:shadow-lg">
-                <MessageSquare className="h-5 w-5" />
-                <span className="font-medium">Ask AI Question</span>
-              </button>
-              <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-teal-600 to-teal-700 text-white px-4 py-3 rounded-lg hover:from-teal-700 hover:to-teal-800 transition-all shadow-md hover:shadow-lg">
-                <TrendingUp className="h-5 w-5" />
-                <span className="font-medium">Generate Report</span>
-              </button>
+              <Button variant="primary" size="lg" className="w-full">
+                <FileText className="h-5 w-5 mr-2" />
+                Upload Document
+              </Button>
+              <Button variant="primary" size="lg" className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
+                <MessageSquare className="h-5 w-5 mr-2" />
+                Ask AI Question
+              </Button>
+              <Button variant="primary" size="lg" className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800">
+                <TrendingUp className="h-5 w-5 mr-2" />
+                Generate Report
+              </Button>
             </div>
           </div>
         </div>

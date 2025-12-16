@@ -44,9 +44,23 @@ export default function SearchPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Semantic Search</h1>
-                    <p className="text-gray-600 mt-1">Search through medical records using natural language</p>
+                {/* Header - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-green-600 via-emerald-700 to-teal-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-green-500/20">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                <SearchIcon className="h-8 w-8 text-white" />
+                            </div>
+                            <div>
+                                <h1 className="text-4xl font-bold mb-1">Semantic Search</h1>
+                                <p className="text-green-100 text-lg">Search through medical records using natural language</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Search Bar */}

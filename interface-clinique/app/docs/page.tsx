@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import { Upload, FileText, CheckCircle, Clock, AlertCircle, Trash2, Download, Eye, RefreshCw } from 'lucide-react';
 import { api } from '../utils/api';
+import { StatusBadge, SkeletonTable } from '../components/ui';
 
 interface Document {
     id: string;
@@ -101,23 +102,55 @@ export default function DocumentsPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Documents</h1>
-                        <p className="text-gray-600 mt-1">Manage and process medical documents</p>
+                {/* Header Section - UPGRADED */}
+                <div className="relative bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden border border-purple-500/20">
+                    {/* Animated Background */}
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/30">
+                                    <FileText className="h-8 w-8 text-white" />
+                                </div>
+                                <div>
+                                    <h1 className="text-4xl font-bold mb-1">Documents</h1>
+                                    <p className="text-purple-100 text-lg">Manage and process medical documents</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={fetchDocuments}
+                                className="p-3 bg-white/20 backdrop-blur-lg border border-white/30 hover:bg-white/30 rounded-xl transition-all"
+                                title="Refresh list"
+                            >
+                                <RefreshCw className={`h-5 w-5 text-white ${loading ? 'animate-spin' : ''}`} />
+                            </button>
+                        </div>
+
+                        {/* Stats Badges */}
+                        <div className="flex flex-wrap gap-3 mt-6">
+                            <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 flex items-center space-x-2">
+                                <FileText className="h-4 w-4" />
+                                <span className="text-sm font-medium">{documents.length} Documents</span>
+                            </div>
+                            <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 flex items-center space-x-2">
+                                <CheckCircle className="h-4 w-4" />
+                                <span className="text-sm font-medium">{documents.filter(d => d.status === 'completed').length} Processed</span>
+                            </div>
+                            <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 flex items-center space-x-2">
+                                <Clock className="h-4 w-4" />
+                                <span className="text-sm font-medium">{documents.filter(d => d.status === 'processing').length} Processing</span>
+                            </div>
+                        </div>
                     </div>
-                    <button
-                        onClick={fetchDocuments}
-                        className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        title="Refresh list"
-                    >
-                        <RefreshCw className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
-                    </button>
                 </div>
 
-                {/* Upload Area */}
+                {/* Upload Area - UPGRADED */}
                 <div
-                    className={`relative border-2 border-dashed rounded-2xl p-12 text-center transition-all ${dragActive ? 'border-blue-600 bg-blue-50' : 'border-gray-300 bg-white hover:border-gray-400'
+                    className={`relative border-2 border-dashed rounded-3xl p-12 text-center transition-all group ${dragActive
+                        ? 'border-purple-600 bg-gradient-to-br from-purple-50 to-blue-50 shadow-xl'
+                        : 'border-gray-300 bg-white hover:border-purple-400 hover:shadow-lg'
                         }`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
@@ -132,31 +165,33 @@ export default function DocumentsPage() {
                         accept=".pdf,.docx,.hl7,.json,.txt"
                     />
                     <label htmlFor="file-upload" className="cursor-pointer">
-                        <div className="space-y-4">
-                            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                                <Upload className="h-8 w-8 text-white" />
+                        <div className="space-y-6">
+                            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                                <Upload className="h-10 w-10 text-white" />
                             </div>
                             <div>
-                                <p className="text-lg font-semibold text-gray-900">
-                                    {dragActive ? 'Drop files here' : 'Drag & drop files here'}
+                                <p className="text-2xl font-bold text-gray-900 mb-2">
+                                    {dragActive ? '✨ Drop files here' : 'Upload Medical Documents'}
                                 </p>
-                                <p className="text-sm text-gray-600 mt-1">or <span className="text-blue-600 font-medium">browse</span> to upload</p>
+                                <p className="text-base text-gray-600">Drag & drop files or <span className="text-purple-600 font-semibold">browse</span> to upload</p>
                             </div>
-                            <div className="flex items-center justify-center space-x-6 text-xs text-gray-500">
-                                <div className="flex items-center space-x-2">
-                                    <FileText className="h-4 w-4" />
-                                    <span>PDF, DOCX, HL7, FHIR</span>
+                            <div className="flex items-center justify-center space-x-8 text-sm">
+                                <div className="flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-xl">
+                                    <FileText className="h-5 w-5 text-purple-600" />
+                                    <span className="font-medium text-gray-700">PDF, DOCX, HL7, FHIR</span>
                                 </div>
-                                <span>•</span>
-                                <span>Max 100MB</span>
+                                <div className="flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-xl">
+                                    <span className="font-medium text-gray-700">Max 100MB</span>
+                                </div>
                             </div>
                         </div>
                     </label>
                     {uploading && (
-                        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+                        <div className="absolute inset-0 bg-white/95 backdrop-blur-md flex items-center justify-center rounded-3xl">
                             <div className="text-center">
-                                <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                                <p className="text-sm font-medium text-gray-900">Uploading & Processing...</p>
+                                <div className="w-20 h-20 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                                <p className="text-lg font-semibold text-gray-900">Uploading & Processing...</p>
+                                <p className="text-sm text-gray-600 mt-2">Please wait while we analyze your document</p>
                             </div>
                         </div>
                     )}
@@ -164,7 +199,9 @@ export default function DocumentsPage() {
 
                 {/* Documents List */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    {documents.length === 0 && !loading ? (
+                    {loading ? (
+                        <SkeletonTable rows={5} />
+                    ) : documents.length === 0 ? (
                         <div className="p-12 text-center text-gray-500">
                             <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                             <p>No documents found</p>
@@ -191,17 +228,11 @@ export default function DocumentsPage() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {doc.status === 'completed' ? (
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    <CheckCircle className="h-3 w-3 mr-1" /> Completed
-                                                </span>
+                                                <StatusBadge status="success">Completed</StatusBadge>
                                             ) : doc.status === 'processing' ? (
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                    <Clock className="h-3 w-3 mr-1 animate-spin" /> Processing
-                                                </span>
+                                                <StatusBadge status="processing">Processing</StatusBadge>
                                             ) : (
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                    <AlertCircle className="h-3 w-3 mr-1" /> Failed
-                                                </span>
+                                                <StatusBadge status="error">Failed</StatusBadge>
                                             )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -212,15 +243,22 @@ export default function DocumentsPage() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex justify-end space-x-2">
-                                                <button className="text-gray-400 hover:text-blue-600 p-1">
+                                                <button
+                                                    className="text-gray-400 hover:text-blue-600 p-1 transition-colors"
+                                                    aria-label="View document"
+                                                >
                                                     <Eye className="h-4 w-4" />
                                                 </button>
-                                                <button className="text-gray-400 hover:text-green-600 p-1">
+                                                <button
+                                                    className="text-gray-400 hover:text-green-600 p-1 transition-colors"
+                                                    aria-label="Download document"
+                                                >
                                                     <Download className="h-4 w-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(doc.id)}
-                                                    className="text-gray-400 hover:text-red-600 p-1"
+                                                    className="text-gray-400 hover:text-red-600 p-1 transition-colors"
+                                                    aria-label="Delete document"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>
