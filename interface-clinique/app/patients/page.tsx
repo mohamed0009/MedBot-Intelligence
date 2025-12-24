@@ -123,7 +123,7 @@ export default function PatientsPage() {
                                         <div className="flex justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); handleGenerateSummary(patient.id); }}
-                                                className="text-blue-600 hover:text-blue-900 bg-blue-50 p-2 rounded-lg flex items-center"
+                                                className="text-teal-600 hover:text-teal-900 bg-teal-50 p-2 rounded-lg flex items-center"
                                                 title="Generate Summary"
                                                 disabled={generatingId === patient.id}
                                             >

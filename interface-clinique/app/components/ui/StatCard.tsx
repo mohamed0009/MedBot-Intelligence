@@ -9,7 +9,7 @@ interface StatCardProps {
         trend: 'up' | 'down';
     };
     icon: LucideIcon;
-    color: 'blue' | 'green' | 'purple' | 'teal';
+    color: 'blue' | 'green' | 'purple' | 'teal' | 'orange';
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -23,7 +23,8 @@ export const StatCard: React.FC<StatCardProps> = ({
         blue: 'from-blue-500 to-blue-600',
         green: 'from-green-500 to-green-600',
         purple: 'from-purple-500 to-purple-600',
-        teal: 'from-teal-500 to-teal-600'
+        teal: 'from-teal-500 to-teal-600',
+        orange: 'from-orange-500 to-orange-600'
     };
 
     return (

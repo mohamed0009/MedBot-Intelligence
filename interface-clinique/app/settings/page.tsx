@@ -30,7 +30,7 @@ export default function SettingsPage() {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-100">
                         <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                            <User className="h-5 w-5 mr-2 text-blue-600" />
+                            <User className="h-5 w-5 mr-2 text-teal-600" />
                             Profile Information
                         </h2>
                     </div>
@@ -38,11 +38,11 @@ export default function SettingsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                <input type="text" defaultValue="Dr. Alejandro Martinez" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                                <input type="text" defaultValue="Dr. Alejandro Martinez" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                <input type="email" defaultValue="dr.martinez@medbot.hospital" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                                <input type="email" defaultValue="dr.martinez@medbot.hospital" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
@@ -50,7 +50,7 @@ export default function SettingsPage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-                                <input type="text" defaultValue="Cardiology" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                                <input type="text" defaultValue="Cardiology" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none" />
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@ export default function SettingsPage() {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-100">
                         <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                            <Bell className="h-5 w-5 mr-2 text-blue-600" />
+                            <Bell className="h-5 w-5 mr-2 text-teal-600" />
                             Notifications
                         </h2>
                     </div>
@@ -72,7 +72,7 @@ export default function SettingsPage() {
                         ].map((setting, i) => (
                             <div key={i} className="flex items-center justify-between">
                                 <span className="text-gray-700">{setting.label}</span>
-                                <button className={`text-2xl ${setting.checked ? 'text-blue-600' : 'text-gray-300'}`}>
+                                <button className={`text-2xl ${setting.checked ? 'text-teal-600' : 'text-gray-300'}`}>
                                     {setting.checked ? <ToggleRight className="h-8 w-8" /> : <ToggleLeft className="h-8 w-8" />}
                                 </button>
                             </div>
@@ -84,7 +84,7 @@ export default function SettingsPage() {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-100">
                         <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                            <Shield className="h-5 w-5 mr-2 text-blue-600" />
+                            <Shield className="h-5 w-5 mr-2 text-teal-600" />
                             System & Security
                         </h2>
                     </div>
@@ -116,7 +116,7 @@ export default function SettingsPage() {
                     <button className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors">
                         Cancel
                     </button>
-                    <button className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center shadow-lg hover:shadow-xl">
+                    <button className="px-6 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors flex items-center shadow-lg hover:shadow-xl">
                         <Save className="h-4 w-4 mr-2" />
                         Save Changes
                     </button>

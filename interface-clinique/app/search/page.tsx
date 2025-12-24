@@ -78,7 +78,7 @@ export default function SearchPage() {
                         <button
                             onClick={handleSearch}
                             disabled={loading}
-                            className="absolute right-2 top-2 bg-blue-600 text-white px-4 py-1.5 rounded-md hover:bg-blue-700 transition-colors font-medium text-sm disabled:bg-blue-400 flex items-center"
+                            className="absolute right-2 top-2 bg-teal-600 text-white px-4 py-1.5 rounded-md hover:bg-teal-700 transition-colors font-medium text-sm disabled:bg-teal-400 flex items-center"
                         >
                             {loading ? <RefreshCw className="h-4 w-4 animate-spin mr-2" /> : null}
                             {loading ? 'Searching...' : 'Search'}
@@ -110,11 +110,11 @@ export default function SearchPage() {
                         <div key={`${result.document_id}-${index}`} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100 group cursor-pointer">
                             <div className="flex justify-between items-start">
                                 <div className="flex items-start space-x-4">
-                                    <div className="p-3 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
-                                        <FileText className="h-6 w-6 text-blue-600" />
+                                    <div className="p-3 bg-teal-50 rounded-lg group-hover:bg-teal-100 transition-colors">
+                                        <FileText className="h-6 w-6 text-teal-600" />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-teal-600 transition-colors">
                                             {result.filename || 'Unknown Document'}
                                         </h3>
                                         <p className="text-gray-600 mt-1 text-sm leading-relaxed line-clamp-3">

@@ -16,11 +16,11 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
-    primary: 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 focus:ring-blue-500',
-    secondary: 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
+    primary: 'bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg hover:shadow-xl hover:from-teal-600 hover:to-teal-700 focus:ring-teal-500',
+    secondary: 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-teal-500',
     success: 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg hover:shadow-xl focus:ring-green-500',
     danger: 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg hover:shadow-xl focus:ring-red-500',
-    ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500'
+    ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-teal-500'
   };
 
   const sizes = {
