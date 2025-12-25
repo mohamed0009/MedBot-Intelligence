@@ -1,4 +1,4 @@
-# MedBot Intelligence
+# DocQA-MS
 
 > **Intelligent Medical Document Assistant powered by AI**  
 > *Transforming Clinical Data into Actionable Insights*
