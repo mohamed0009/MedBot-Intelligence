@@ -96,7 +96,7 @@ async def shutdown_event():
     """Cleanup on shutdown"""
     
     # Deregister from Eureka
-    global eureka_registry
+
     if eureka_registry:
         try:
             eureka_registry.deregister()

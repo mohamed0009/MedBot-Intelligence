@@ -57,7 +57,7 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
     """Deregister from Eureka on shutdown"""
-    global eureka_registry
+
     if eureka_registry:
         try:
             eureka_registry.deregister()
