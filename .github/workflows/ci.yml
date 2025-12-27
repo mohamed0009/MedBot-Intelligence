@@ -71,6 +71,10 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f services/${{ matrix.service }}/requirements.txt ]; then pip install -r services/${{ matrix.service }}/requirements.txt; fi
         pip install pytest flake8
+        # Install spacy model for deid service
+        if [ "${{ matrix.service }}" == "deid" ]; then python -m spacy download en_core_web_lg; fi
+        # Install NLTK data for indexeur-semantique
+        if [ "${{ matrix.service }}" == "indexeur-semantique" ]; then python -m nltk.downloader punkt_tab; fi
 
     - name: Lint with Flake8
       run: |
